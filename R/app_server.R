@@ -315,7 +315,7 @@ rp_app_server <- function(input, output, session) {
     repro_dir <- result()$files$reproducibility_dir
     script_path <- file.path(repro_dir, "reproduce_randomization.R")
     if (is.null(repro_dir) || !dir.exists(repro_dir) || !file.exists(script_path)) {
-      output$verify_result <- shiny::renderText(rp_t("当前结果未生成复现包，无法执行复现校验。"))
+      output$verify_result <- shiny::renderText(rp_t("\u5F53\u524D\u7ED3\u679C\u672A\u751F\u6210\u590D\u73B0\u5305\uFF0C\u65E0\u6CD5\u6267\u884C\u590D\u73B0\u6821\u9A8C\u3002"))
       return()
     }
 
@@ -326,12 +326,12 @@ rp_app_server <- function(input, output, session) {
       repro_env <- new.env(parent = baseenv())
       sys.source(script_path, envir = repro_env)
       if (!exists("res", envir = repro_env, inherits = FALSE)) {
-        stop(rp_t("复现脚本未生成对象 res。"), call. = FALSE)
+        stop(rp_t("\u590D\u73B0\u811A\u672C\u672A\u751F\u6210\u5BF9\u8C61 res\u3002"), call. = FALSE)
       }
       repro_res <- get("res", envir = repro_env, inherits = FALSE)
       rp_verify_reproducibility(result()$allocation_table, repro_res$allocation_table)
     }, error = function(e) {
-      list(message = paste0(rp_t("复现校验失败："), e$message))
+      list(message = paste0(rp_t("\u590D\u73B0\u6821\u9A8C\u5931\u8D25\uFF1A"), e$message))
     })
 
     output$verify_result <- shiny::renderText(check$message)

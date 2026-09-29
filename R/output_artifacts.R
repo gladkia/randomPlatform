@@ -137,7 +137,7 @@
 }
 
 .rp_emergency_insert_sensitive_note_lines <- function() {
-  c(.rp_bilingual("本页含明确盲底，仅限紧急破盲时由授权人员查看", "This page contains allocation information and is restricted to authorized emergency unblinding use"))
+  c(.rp_bilingual("\u672C\u9875\u542B\u660E\u786E\u76F2\u5E95\uFF0C\u4EC5\u9650\u7D27\u6025\u7834\u76F2\u65F6\u7531\u6388\u6743\u4EBA\u5458\u67E5\u770B", "This page contains allocation information and is restricted to authorized emergency unblinding use"))
 }
 
 .rp_emergency_insert_sensitive_note_spec <- function(y_after, gap = 0.035) {
@@ -156,7 +156,7 @@
   )
 
   list(
-    title = .rp_bilingual("敏感提示", "Sensitive information"),
+    title = .rp_bilingual("\u654F\u611F\u63D0\u793A", "Sensitive information"),
     lines = lines,
     y_top = min(0.24, y_after - gap),
     height = height,
