@@ -1,27 +1,27 @@
 rp_interventions_panel <- function() {
   shiny::tagList(
     rp_card(
-      "\u5E72\u9884\u7EC4\u8BBE\u7F6E",
-      subtitle = "\u652F\u6301 2-5 \u4E2A\u5E72\u9884\u7EC4\uFF0C\u53EF\u6309\u5206\u914D\u6BD4\u6216\u76F4\u63A5\u8F93\u5165\u5404\u7EC4\u6837\u672C\u91CF\u3002",
+      rp_t("\u5E72\u9884\u7EC4\u8BBE\u7F6E"),
+      subtitle = rp_t("\u652F\u6301 2-5 \u4E2A\u5E72\u9884\u7EC4\uFF0C\u53EF\u6309\u5206\u914D\u6BD4\u6216\u76F4\u63A5\u8F93\u5165\u5404\u7EC4\u6837\u672C\u91CF\u3002"),
       rp_grid(
-        shiny::numericInput("group_count", "\u5206\u7EC4\u6570", value = 2, min = 2, max = 5, step = 1),
-        shiny::numericInput("n_total", "\u603B\u6837\u672C\u91CF", value = 20, min = 1, step = 1)
+        shiny::numericInput("group_count", rp_t("\u5206\u7EC4\u6570"), value = 2, min = 2, max = 5, step = 1),
+        shiny::numericInput("n_total", rp_t("\u603B\u6837\u672C\u91CF"), value = 20, min = 1, step = 1)
       ),
       shiny::radioButtons(
         "sample_input_mode",
-        "\u6837\u672C\u91CF\u8F93\u5165\u65B9\u5F0F",
+        rp_t("\u6837\u672C\u91CF\u8F93\u5165\u65B9\u5F0F"),
         choices = c("Total N + allocation ratio" = "ratio", "Group sample sizes" = "n_per_group"),
         selected = "ratio",
         inline = TRUE
       ),
-      shiny::textInput("blind_label", "\u76F2\u6001\u6807\u7B7E\uFF08\u6240\u6709\u7EC4\u76F8\u540C\uFF09", value = "\u6CBB\u7597\u65B9\u6848"),
+      shiny::textInput("blind_label", rp_t("\u76F2\u6001\u6807\u7B7E\uFF08\u6240\u6709\u7EC4\u76F8\u540C\uFF09"), value = rp_t("\u6CBB\u7597\u65B9\u6848")),
       shiny::uiOutput("intervention_rows"),
       shiny::uiOutput("sample_size_hint")
     ),
     shiny::tags$div(
       class = "rp-warning",
-      shiny::strong("\u76F2\u6CD5\u63D0\u793A\uFF1A"),
-      "\u82E5\u836F\u7269\u7F16\u7801\u524D\u7F00\u4E0E\u7EC4\u522B\u7ED1\u5B9A\uFF0C\u7814\u7A76\u73B0\u573A\u53EF\u80FD\u63A8\u6D4B\u5206\u7EC4\u3002\u53CC\u76F2\u7814\u7A76\u5EFA\u8BAE\u4F7F\u7528\u7EDF\u4E00\u7F16\u7801\u524D\u7F00\u3002"
+      shiny::strong(rp_t("\u76F2\u6CD5\u63D0\u793A\uFF1A")),
+      rp_t("\u82E5\u836F\u7269\u7F16\u7801\u524D\u7F00\u4E0E\u7EC4\u522B\u7ED1\u5B9A\uFF0C\u7814\u7A76\u73B0\u573A\u53EF\u80FD\u63A8\u6D4B\u5206\u7EC4\u3002\u53CC\u76F2\u7814\u7A76\u5EFA\u8BAE\u4F7F\u7528\u7EDF\u4E00\u7F16\u7801\u524D\u7F00\u3002")
     )
   )
 }
@@ -33,14 +33,14 @@ rp_intervention_rows_ui <- function(group_count, sample_input_mode = "ratio") {
     shiny::tags$div(
       class = paste("rp-repeat-row", if (derived_n) "rp-ratio-mode" else "rp-direct-n-mode"),
       shiny::tags$div(class = "rp-repeat-index", paste0("#", i)),
-      shiny::textInput(paste0("group_id_", i), "\u7EC4\u522B\u4EE3\u7801", value = defaults[i]),
-      shiny::textInput(paste0("intervention_name_", i), "\u5E72\u9884\u540D\u79F0", value = if (i == 1) "\u8BD5\u9A8C\u7EC4" else if (i == 2) "\u5BF9\u7167\u7EC4" else paste0("\u5E72\u9884\u7EC4", i)),
+      shiny::textInput(paste0("group_id_", i), rp_t("\u7EC4\u522B\u4EE3\u7801"), value = defaults[i]),
+      shiny::textInput(paste0("intervention_name_", i), rp_t("\u5E72\u9884\u540D\u79F0"), value = if (i == 1) rp_t("\u8BD5\u9A8C\u7EC4") else if (i == 2) rp_t("\u5BF9\u7167\u7EC4") else paste0(rp_t("\u5E72\u9884\u7EC4"), i)),
       shiny::tagAppendAttributes(
-        shiny::numericInput(paste0("ratio_", i), "\u5206\u914D\u6BD4\u4F8B", value = 1, min = 0.01, step = 0.01),
+        shiny::numericInput(paste0("ratio_", i), rp_t("\u5206\u914D\u6BD4\u4F8B"), value = 1, min = 0.01, step = 0.01),
         class = "rp-ratio-field"
       ),
       shiny::tagAppendAttributes(
-        shiny::numericInput(paste0("n_group_", i), "\u7EC4\u6837\u672C\u91CF", value = 10, min = 0, step = 1),
+        shiny::numericInput(paste0("n_group_", i), rp_t("\u7EC4\u6837\u672C\u91CF"), value = 10, min = 0, step = 1),
         class = "rp-n-group-field"
       )
     )

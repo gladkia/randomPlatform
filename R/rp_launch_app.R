@@ -17,6 +17,9 @@
 #'   server is wrapped so that `shiny::stopApp()` is called when the session
 #'   ends. When `FALSE`, `rp_app_server` is used directly and the app keeps the
 #'   standard Shiny session lifecycle.
+#' @param language Interface language: `"zh-CN"`, `"en-US"` or `"pl-PL"`.
+#'   Default: option `randomPlatform.language`, else `"zh-CN"`. It is also the
+#'   preselected language for envelopes, which can be changed in the app.
 #' @param options Named list of additional arguments passed through to
 #'   `shiny::runApp()` via `do.call()`. Defaults to `list()`. Use this to
 #'   supply any extra runApp options that are not exposed as formal arguments
@@ -47,8 +50,12 @@ rp_launch_app <- function(
   port = 3838,
   launch.browser = TRUE,
   stop_on_session_end = TRUE,
+  language = getOption("randomPlatform.language", "zh-CN"),
   options = list()
 ) {
+  .rp_lang(language)
+  old_language <- base::options(randomPlatform.language = language)
+  on.exit(base::options(old_language), add = TRUE)
   if (identical(host, "0.0.0.0")) {
     warning(
       "The app is being bound to 0.0.0.0 and may be reachable from other machines. ",

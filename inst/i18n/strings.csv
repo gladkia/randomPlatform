@@ -1,0 +1,183 @@
+zh,en,pl
+干预组设置,Intervention groups,Grupy interwencji
+支持 2-5 个干预组，可按分配比或直接输入各组样本量。,2-5 intervention groups; set an allocation ratio or enter each group's sample size.,2–5 grup interwencji; podaj proporcję przydziału albo liczebność każdej grupy.
+分组数,Number of groups,Liczba grup
+总样本量,Total sample size,Łączna liczebność próby
+样本量输入方式,Sample size input,Sposób podania liczebności
+盲态标签（所有组相同）,Blinded label (same for all groups),Etykieta zaślepiona (wspólna dla wszystkich grup)
+治疗方案,Study treatment,Leczenie badane
+盲法提示：,Blinding note:,Uwaga o zaślepieniu:
+若药物编码前缀与组别绑定，研究现场可能推测分组。双盲研究建议使用统一编码前缀。,"If the drug code prefix is tied to the group, sites can infer the allocation. Use one common prefix in double-blind studies.","Jeśli prefiks kodu leku zależy od grupy, ośrodek może odgadnąć przydział. W badaniach podwójnie zaślepionych używaj jednego wspólnego prefiksu."
+组别代码,Group code,Kod grupy
+干预名称,Intervention name,Nazwa interwencji
+试验组,Experimental group,Grupa badana
+对照组,Control group,Grupa kontrolna
+干预组,Intervention group,Grupa interwencji
+分配比例,Allocation ratio,Proporcja przydziału
+组样本量,Group sample size,Liczebność grupy
+最小化法动态随机化,Dynamic randomization by minimization,Randomizacja dynamiczna metodą minimalizacji
+用于逐例入组的动态随机分配，会话状态会保存到本地文件。,Dynamic allocation one participant at a time; the session state is saved to a local file.,Przydział dynamiczny pacjent po pacjencie; stan sesji zapisywany jest w lokalnym pliku.
+平衡因素（逗号分隔，最多6个）,"Balancing factors (comma-separated, up to 6)","Czynniki równoważenia (po przecinku, maks. 6)"
+因素权重（逗号分隔）,Factor weights (comma-separated),Wagi czynników (po przecinku)
+状态文件名,State file name,Nazwa pliku stanu
+启动/重置会话,Start / reset session,Uruchom / zresetuj sesję
+逐例分配,Assign one participant,Przydział pojedynczego uczestnika
+受试者筛选号或内部 ID,Screening number or internal ID,Numer skriningowy lub wewnętrzny ID
+操作者姓名（可选）,Operator name (optional),Imię i nazwisko operatora (opcjonalnie)
+备注（可选）,Note (optional),Uwagi (opcjonalnie)
+分配下一例,Assign next participant,Przydziel kolejnego uczestnika
+最近一次盲态分配结果,Latest blinded assignment,Ostatni przydział (zaślepiony)
+最近一次非盲态结果（仅授权人员查看）,Latest unblinded result (authorized staff only),Ostatni wynik odślepiony (tylko osoby upoważnione)
+确认当前操作者为授权人员,I confirm the current operator is authorized,"Potwierdzam, że operator jest osobą upoważnioną"
+当前分配表,Current assignment table,Bieżąca tabela przydziałów
+输出设置,Outputs,Pliki wynikowe
+选择需要生成的报表、PDF 信封和复现文件。,"Choose which report, PDF envelopes and reproducibility files to generate.","Wybierz raport, koperty PDF i pliki odtwarzalności do wygenerowania."
+生成随机化报表,Generate randomization report,Generuj raport randomizacji
+报表文件名,Report file name,Nazwa pliku raportu
+生成随机信封 PDF,Generate allocation envelopes PDF,Generuj koperty przydziału (PDF)
+随机信封文件名,Allocation envelopes file name,Nazwa pliku kopert przydziału
+生成应急破盲信封 PDF,Generate emergency unblinding envelopes PDF,Generuj koperty do odślepienia awaryjnego (PDF)
+应急破盲信封文件名,Emergency envelopes file name,Nazwa pliku kopert awaryjnych
+生成复现包,Generate reproducibility bundle,Generuj pakiet odtwarzalności
+生成完全独立复现代码,Generate standalone reproduction code,Generuj samodzielny kod odtwarzający
+生成打印装袋核对清单,Generate print and packing checklist,Generuj listę kontrolną druku i pakowania
+按中心拆分信封文件（预留）,Split envelope files by center (reserved),Osobne pliki kopert dla ośrodków (zarezerwowane)
+敏感输出包括非盲态主表、应急破盲信封、复现包中的盲底信息。下载前请确认操作者权限。,"Sensitive outputs are the unblinded master table, the emergency unblinding envelopes and the allocation data in the reproducibility bundle. Confirm the operator's authorization before downloading.","Pliki wrażliwe to odślepiona tabela główna, koperty do odślepienia awaryjnego i dane przydziału w pakiecie odtwarzalności. Przed pobraniem potwierdź uprawnienia operatora."
+项目信息,Project,Projekt
+用于报表、信封和复现文件的基础信息。,"Basic information used in the report, envelopes and reproducibility files.","Dane podstawowe do raportu, kopert i plików odtwarzalności."
+项目名称,Project name,Nazwa projektu
+示例临床试验,Example clinical trial,Przykładowe badanie kliniczne
+方案编号,Protocol number,Numer protokołu
+申办单位名称,Sponsor,Sponsor
+示例申办单位,Example sponsor,Przykładowy sponsor
+语言,Output language,Język dokumentów
+输出与安全,Output and security,Pliki i bezpieczeństwo
+默认仅在本地运行，敏感文件下载前需要二次确认。,Runs locally by default; sensitive downloads require a second confirmation.,Domyślnie działa lokalnie; pobranie plików wrażliwych wymaga dodatkowego potwierdzenia.
+输出目录,Output directory,Katalog wynikowy
+选择目录,Choose directory,Wybierz katalog
+请选择输出目录,Choose the output directory,Wybierz katalog wynikowy
+启用敏感输出密码必填检查（当前不加密文件）,Require a password for sensitive outputs (files are not encrypted),Wymagaj hasła dla plików wrażliwych (pliki nie są szyfrowane)
+密码（当前仅校验是否填写）,Password (only checked for presence),"Hasło (sprawdzane tylko, czy podane)"
+随机化设计,Randomization design,Schemat randomizacji
+选择随机化方法，并固定随机种子以支持复现。,Choose the method and fix the random seed so the list can be reproduced.,"Wybierz metodę i ustal ziarno losowania, żeby listę można było odtworzyć."
+随机化方法,Randomization method,Metoda randomizacji
+随机种子数,Random seed,Ziarno losowania
+编号规则,Numbering,Numeracja
+随机号、信封流水号与药物/干预编码的格式。,"Format of randomization numbers, envelope serial numbers and drug/intervention codes.","Format numerów randomizacyjnych, numerów kopert i kodów leku/interwencji."
+随机号前缀,Randomization number prefix,Prefiks numeru randomizacyjnego
+随机号位数,Randomization number digits,Liczba cyfr numeru randomizacyjnego
+信封流水号前缀,Envelope serial prefix,Prefiks numeru koperty
+信封流水号位数,Envelope serial digits,Liczba cyfr numeru koperty
+药物/干预编码前缀,Drug/intervention code prefix,Prefiks kodu leku/interwencji
+编码数字位数,Code digits,Liczba cyfr kodu
+按中心生成随机号,Number randomizations per center,Numeruj randomizacje w obrębie ośrodka
+使用随机数字编码,Use random code digits,Losowe cyfry w kodach
+编码前缀绑定组别（盲态设计请勿勾选！）,Code prefix per group (do not tick in blinded designs!),Prefiks kodu zależny od grupy (nie zaznaczać w badaniach zaślepionych!)
+区组与编码范围,Blocks and code range,Bloki i zakres kodów
+多个数值请用英文逗号分隔。,Separate multiple values with commas.,Kilka wartości oddziel przecinkami.
+随机数字最小值,Code digits minimum,Minimalna wartość kodu
+随机数字最大值,Code digits maximum,Maksymalna wartość kodu
+区组大小,Block sizes,Rozmiary bloków
+区组大小概率（可空）,Block size probabilities (optional),Prawdopodobieństwa rozmiarów bloków (opcjonalnie)
+分层因素,Stratification factors,Czynniki stratyfikacji
+最多 6 个分层因素；层数过多时界面会提示风险。,Up to 6 factors; the app warns when there are too many strata.,Maks. 6 czynników; aplikacja ostrzega przy zbyt wielu warstwach.
+分层因素数量,Number of factors,Liczba czynników
+未设置分层因素。,No stratification factors set.,Brak czynników stratyfikacji.
+分层因素 ,Factor ,Czynnik 
+ 名称, name, – nazwa
+分层水平（逗号分隔）,Levels (comma-separated),Poziomy (po przecinku)
+"低,高","Low,High","Niski,Wysoki"
+生成与预览,Generate and preview,Generowanie i podgląd
+生成前请核对参数摘要；生成后可预览表格和文件 hash。,Check the parameter summary before generating; afterwards preview the tables and file hashes.,Przed generowaniem sprawdź podsumowanie parametrów; potem obejrzyj tabele i skróty plików.
+盲态现场表预览,Blinded site table preview,Podgląd zaślepionej tabeli dla ośrodków
+非盲态主表（仅授权人员查看）,Unblinded master table (authorized staff only),Odślepiona tabela główna (tylko osoby upoważnione)
+分组汇总,Group summary,Podsumowanie grup
+输出文件,Output files,Pliki wynikowe
+文件下载,Downloads,Pobieranie
+敏感文件需先确认授权。,Sensitive files require confirming authorization first.,Pliki wrażliwe wymagają najpierw potwierdzenia uprawnień.
+我确认当前操作者有权下载包含盲底或可揭盲信息的敏感文件。,I confirm the current operator is authorized to download files containing allocation or unblinding information.,"Potwierdzam, że operator jest upoważniony do pobrania plików zawierających przydział lub dane do odślepienia."
+下载完整输出 ZIP,Download all outputs (ZIP),Pobierz wszystkie pliki (ZIP)
+下载随机化报表,Download randomization report,Pobierz raport randomizacji
+下载盲态现场表,Download blinded site table,Pobierz zaślepioną tabelę dla ośrodków
+下载非盲态主表,Download unblinded master table,Pobierz odślepioną tabelę główną
+下载随机信封 PDF,Download allocation envelopes PDF,Pobierz koperty przydziału (PDF)
+下载应急破盲信封 PDF,Download emergency envelopes PDF,Pobierz koperty awaryjne (PDF)
+下载复现包 ZIP,Download reproducibility bundle (ZIP),Pobierz pakiet odtwarzalności (ZIP)
+下载审计日志,Download audit log,Pobierz dziennik audytu
+下载 hash 文件,Download hash file,Pobierz plik skrótów
+审计与复现,Audit and reproducibility,Audyt i odtwarzalność
+查看 R 运行环境、RNG 设置、hash 和复现校验结果。,"R environment, RNG settings, hashes and the reproducibility check.","Środowisko R, ustawienia generatora, skróty i test odtwarzalności."
+运行复现校验,Run reproducibility check,Uruchom test odtwarzalności
+审计日志预览,Audit log preview,Podgląd dziennika audytu
+复现命令,Reproduction command,Polecenie odtwarzające
+请在“最小化法动态随机化”页面使用逐例动态随机化。,Use the “Dynamic randomization by minimization” page for one-by-one allocation.,Do przydziału pacjent po pacjencie użyj strony „Randomizacja dynamiczna metodą minimalizacji”.
+当前模式下，总样本量将按各组样本量之和自动更新。,In this mode the total sample size is the sum of the group sizes.,W tym trybie łączna liczebność to suma liczebności grup.
+当前模式下，各组样本量按总样本量和分配比例自动计算（最大余数法）。,In this mode group sizes are derived from the total and the ratio (largest remainder method).,W tym trybie liczebności grup wynikają z łącznej liczebności i proporcji (metoda największych reszt).
+分层变量,Center factor,Czynnik ośrodka
+分层组合数,Number of strata,Liczba warstw
+状态,Status,Stan
+未启用分层,Stratification off,Stratyfikacja wyłączona
+风险提示：分层组合数相对样本量过多，建议减少分层因素或调整随机化设计。,Warning: too many strata for the sample size; reduce the factors or change the design.,Uwaga: za dużo warstw względem liczebności; ogranicz czynniki albo zmień schemat.
+分层组合数处于可接受范围。,The number of strata is acceptable.,Liczba warstw jest akceptowalna.
+每层预计样本量约,Expected size per stratum,Oczekiwana liczebność warstwy
+评估,Assessment,Ocena
+参数尚未完整：,Parameters incomplete: ,Parametry niekompletne: 
+申办单位,Sponsor,Sponsor
+随机种子,Seed,Ziarno
+生成随机信封,Allocation envelopes,Koperty przydziału
+是,Yes,Tak
+否,No,Nie
+生成应急破盲信封,Emergency envelopes,Koperty awaryjne
+正在生成随机化结果,Generating randomization,Generowanie randomizacji
+校验参数,Validating parameters,Sprawdzanie parametrów
+执行随机化,Randomizing,Losowanie
+整理输出,Writing outputs,Zapisywanie plików
+随机化已完成,Randomization complete,Randomizacja zakończona
+随机化结果及输出文件已生成。请在“生成与预览”页面核对结果，并在“文件下载”页面下载归档文件。,The randomization and output files are ready. Check them on “Generate and preview” and download the archive on “Downloads”.,"Randomizacja i pliki są gotowe. Sprawdź je na stronie „Generowanie i podgląd”, a archiwum pobierz na stronie „Pobieranie”."
+确定,OK,OK
+生成失败：,Generation failed: ,Generowanie nie powiodło się: 
+尚未生成随机化结果。,No randomization generated yet.,Randomizacja nie została jeszcze wygenerowana.
+随机化结果已生成。,Randomization generated.,Randomizacja wygenerowana.
+R 版本,R version,Wersja R
+randomPlatform 版本,randomPlatform version,Wersja randomPlatform
+RNG 设置,RNG settings,Ustawienia generatora
+生成时间,Generated at,Wygenerowano
+暂无审计日志。,No audit log yet.,Brak dziennika audytu.
+当前结果未生成复现包，无法执行复现校验。,"This result has no reproducibility bundle, so it cannot be checked.","Ten wynik nie ma pakietu odtwarzalności, więc nie można go sprawdzić."
+复现脚本未生成对象 res。,The reproduction script did not create the object res.,Skrypt odtwarzający nie utworzył obiektu res.
+复现校验失败：,Reproducibility check failed: ,Test odtwarzalności nie powiódł się: 
+请先确认当前操作者有权下载敏感文件。,Confirm first that the operator may download sensitive files.,"Najpierw potwierdź, że operator może pobierać pliki wrażliwe."
+ 水平, level, – poziom
+最小化法会话已启动。,Minimization session started.,Sesja minimalizacji uruchomiona.
+临床研究随机化管理系统,Clinical trial randomization,Randomizacja w badaniach klinicznych
+按当前页面参数生成随机化结果。,Generate the randomization from the current parameters.,Wygeneruj randomizację z bieżących parametrów.
+注意:由该系统生成制作的随机信封须严格按编号从小到大的顺序、依入组先后依次拆封。,"Note: allocation envelopes produced by this system must be opened strictly in ascending number order, in order of enrollment.","Uwaga: koperty przydziału z tego systemu otwiera się ściśle w kolejności rosnących numerów, zgodnie z kolejnością włączania."
+上海中医药大学附属龙华医院临床研究中心,"Clinical Research Center, Longhua Hospital, Shanghai University of Traditional Chinese Medicine","Centrum Badań Klinicznych, Szpital Longhua, Szanghajski Uniwersytet Tradycyjnej Medycyny Chińskiej"
+联系邮箱：yangpluszhu@sina.com,Contact: yangpluszhu@sina.com,Kontakt: yangpluszhu@sina.com
+项目地址：https://github.com/yangpluszhu/randomPlatform,Project: https://github.com/yangpluszhu/randomPlatform,Projekt: https://github.com/yangpluszhu/randomPlatform
+未设置,Not set,Nie ustawiono
+本页含明确盲底，仅限紧急破盲时由授权人员查看,This page contains allocation information and is restricted to authorized emergency unblinding use,Ta strona zawiera informację o przydziale; wyłącznie do odślepienia awaryjnego przez osobę upoważnioną
+敏感提示,Sensitive information,Informacja poufna
+信封流水号,Envelope serial number,Numer koperty
+中心编号/机构名称,Center/institution,Ośrodek/instytucja
+分层信息,Stratification,Warstwa
+流水号,Serial,Numer
+随机信封封面,Random Envelope Cover,Koperta przydziału – okładka
+操作说明,Instruction,Instrukcja
+按入组顺序依次开启,Open sequentially according to enrollment order,Otwierać kolejno według kolejności włączania
+开启前确认受试者符合入组条件,Confirm participant eligibility before opening,"Przed otwarciem potwierdź, że uczestnik spełnia kryteria włączenia"
+本封面不得显示分组或破盲信息,This cover must not display allocation or unblinding information,Okładka nie może zawierać informacji o przydziale ani odślepieniu
+随机信封内页,Random Envelope Insert,Koperta przydziału – wkładka
+药物编号/干预编号,Drug/intervention code,Kod leku/interwencji
+应急破盲信封封面,Emergency Unblinding Envelope Cover,Koperta do odślepienia awaryjnego – okładka
+警示,Warning,Ostrzeżenie
+仅限紧急破盲使用,Emergency unblinding use only,Wyłącznie do odślepienia awaryjnego
+非医学紧急情况请勿拆开,Do not open unless medically necessary,Nie otwierać bez medycznej konieczności
+一旦拆开，即视为该试验参与者已被破盲,Opening means the participant has been unblinded,Otwarcie oznacza odślepienie uczestnika
+拆封记录（现场手写填写）,"Opening record, handwritten on site",Protokół otwarcia (wypełnić ręcznie w ośrodku)
+拆封原因,Reason for opening,Powód otwarcia
+拆封人签名及日期/具体时间,Opened by/date time,"Otworzył(a), data i godzina"
+见证人签名及日期/具体时间,Witness/date time,"Świadek, data i godzina"
+应急破盲信封内页,Emergency Unblinding Envelope Insert,Koperta do odślepienia awaryjnego – wkładka
+试验参与者随机号,Participant randomization number,Numer randomizacyjny uczestnika
+药物分配/干预揭盲信息,Treatment/intervention allocation,Przydzielone leczenie/interwencja

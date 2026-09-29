@@ -498,12 +498,13 @@
 #'   `FALSE`, the script calls the installed package API. Default: `TRUE`.
 #' @param output_dir Output directory for all generated files. Default: `"."`.
 #'   It is created recursively if needed and must be writable.
-#' @param language Character scalar currently accepted for API compatibility
-#'   only. Default: `"zh-CN"`. `rp_randomize()` does not currently branch on
-#'   this value.
+#' @param language Language of the PDF envelopes: `"zh-CN"`, `"en-US"` or
+#'   `"pl-PL"`. Default: option `randomPlatform.language`, else `"zh-CN"`.
+#'   Chinese envelopes carry English in brackets. It does not
+#'   affect the allocation or its hash.
 #' @param font_family Optional font family name forwarded to the PDF envelope
-#'   writers. Default: `NULL`. When `NULL`, the PDF helpers automatically choose
-#'   a platform-appropriate Chinese font candidate before opening the PDF device.
+#'   writers. Default: `NULL`. When `NULL`, Chinese envelopes use a
+#'   platform-appropriate Chinese font and other languages use `"sans"`.
 #' @param encrypt_sensitive_outputs Logical; currently a boundary-validation flag
 #'   only. Default: `FALSE`. When `TRUE`, `password` must be a non-empty string,
 #'   but this function does not itself encrypt output files.
@@ -576,7 +577,7 @@
 #'
 #'   `block_sizes` and `block_size_probs` are used by `"block"` and
 #'   `"stratified_block"`; the current `"stratified"` path does not use them.
-#'   `language` is currently accepted but unused by `rp_randomize()`. When the
+#'   `language` only changes envelope text. When the
 #'   reproducibility bundle is generated, `standalone_reproducibility_code = TRUE`
 #'   writes a standalone `reproduce_randomization.R` script that embeds the
 #'   package function definitions, while `FALSE` keeps a package-based script.
@@ -641,7 +642,7 @@ rp_randomize <- function(
   generate_reproducibility = TRUE,
   standalone_reproducibility_code = TRUE,
   output_dir = ".",
-  language = "zh-CN",
+  language = getOption("randomPlatform.language", "zh-CN"),
   font_family = NULL,
   encrypt_sensitive_outputs = FALSE,
   password = NULL,
@@ -662,6 +663,9 @@ rp_randomize <- function(
   groups <- interventions$group_id
   strata <- .rp_parse_strata(strata)
   output_dir <- .rp_validate_output_dir(output_dir)
+  .rp_lang(language)
+  old_language <- options(randomPlatform.language = language)
+  on.exit(options(old_language), add = TRUE)
   if (isTRUE(encrypt_sensitive_outputs) && (is.null(password) || !nzchar(password))) {
     stop("password is required when encrypt_sensitive_outputs is TRUE.", call. = FALSE)
   }
