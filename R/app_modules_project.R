@@ -1,5 +1,5 @@
 rp_project_panel <- function() {
-  output_dir <- rp_default_output_dir()
+  output_dir <- if (rp_hosted()) NULL else rp_default_output_dir()
   shiny::tagList(
     rp_card(
       rp_t("\u9879\u76EE\u4FE1\u606F"),
@@ -14,11 +14,15 @@ rp_project_panel <- function() {
     rp_card(
       rp_t("\u8F93\u51FA\u4E0E\u5B89\u5168"),
       subtitle = rp_t("\u9ED8\u8BA4\u4EC5\u5728\u672C\u5730\u8FD0\u884C\uFF0C\u654F\u611F\u6587\u4EF6\u4E0B\u8F7D\u524D\u9700\u8981\u4E8C\u6B21\u786E\u8BA4\u3002"),
-      shiny::tags$div(
-        class = "rp-output-dir-row",
-        shiny::textInput("output_dir", rp_t("\u8F93\u51FA\u76EE\u5F55"), value = output_dir),
-        shinyFiles::shinyDirButton("choose_output_dir", rp_t("\u9009\u62E9\u76EE\u5F55"), rp_t("\u8BF7\u9009\u62E9\u8F93\u51FA\u76EE\u5F55"), class = "btn-secondary rp-dir-button")
-      ),
+      if (rp_hosted()) {
+        shiny::tags$div(class = "rp-envelope-sequence-warning", rp_t("\u6F14\u793A\u7248\uFF1A\u8BF7\u52FF\u8F93\u5165\u771F\u5B9E\u53D7\u8BD5\u8005\u6570\u636E\u3002\u6587\u4EF6\u4EC5\u4FDD\u5B58\u5728\u672C\u6B21\u4F1A\u8BDD\u4E2D\uFF0C\u8BF7\u5728\u201C\u6587\u4EF6\u4E0B\u8F7D\u201D\u9875\u9762\u4E0B\u8F7D\u3002"))
+      } else {
+        shiny::tags$div(
+          class = "rp-output-dir-row",
+          shiny::textInput("output_dir", rp_t("\u8F93\u51FA\u76EE\u5F55"), value = output_dir),
+          shinyFiles::shinyDirButton("choose_output_dir", rp_t("\u9009\u62E9\u76EE\u5F55"), rp_t("\u8BF7\u9009\u62E9\u8F93\u51FA\u76EE\u5F55"), class = "btn-secondary rp-dir-button")
+        )
+      },
       rp_grid(
         shiny::checkboxInput("encrypt_sensitive_outputs", rp_t("\u542F\u7528\u654F\u611F\u8F93\u51FA\u5BC6\u7801\u5FC5\u586B\u68C0\u67E5\uFF08\u5F53\u524D\u4E0D\u52A0\u5BC6\u6587\u4EF6\uFF09"), value = FALSE),
         shiny::passwordInput("password", rp_t("\u5BC6\u7801\uFF08\u5F53\u524D\u4EC5\u6821\u9A8C\u662F\u5426\u586B\u5199\uFF09"), value = "")
@@ -26,6 +30,10 @@ rp_project_panel <- function() {
     )
   )
 }
+
+# Hosted mode (a shared server, e.g. Posit Connect): no browsing of the server's
+# disk, and every session writes into its own temporary directory.
+rp_hosted <- function() isTRUE(getOption("randomPlatform.hosted", FALSE))
 
 rp_default_output_dir <- function() {
   home <- Sys.getenv("USERPROFILE", unset = path.expand("~"))

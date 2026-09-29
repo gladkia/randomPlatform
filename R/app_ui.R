@@ -64,8 +64,8 @@ rp_app_ui <- function() {
         ),
         shiny::tags$div(
           class = "rp-topbar-meta",
-          shiny::tags$span("Local only"),
-          shiny::tags$strong("127.0.0.1")
+          shiny::tags$span(if (rp_hosted()) "Demo" else "Local only"),
+          if (!rp_hosted()) shiny::tags$strong("127.0.0.1")
         )
       ),
       shiny::tags$div(

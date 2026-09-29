@@ -124,8 +124,15 @@ rp_app_server <- function(input, output, session) {
   min_last <- shiny::reactiveVal(NULL)
   syncing_sample_size <- FALSE
 
-  roots <- rp_directory_roots()
-  shinyFiles::shinyDirChoose(input, "choose_output_dir", roots = roots, session = session)
+  hosted_dir <- NULL
+  if (rp_hosted()) {
+    hosted_dir <- tempfile("rp-session-")
+    dir.create(hosted_dir, recursive = TRUE)
+    session$onSessionEnded(function() unlink(hosted_dir, recursive = TRUE))
+  } else {
+    roots <- rp_directory_roots()
+    shinyFiles::shinyDirChoose(input, "choose_output_dir", roots = roots, session = session)
+  }
 
   shiny::observeEvent(input$choose_output_dir, {
     chosen <- shinyFiles::parseDirPath(roots, input$choose_output_dir)
@@ -233,6 +240,7 @@ rp_app_server <- function(input, output, session) {
         last_error(args$message)
         return(NULL)
       }
+      if (!is.null(hosted_dir)) args$output_dir <- hosted_dir
       shiny::incProgress(0.4, detail = rp_t("\u6267\u884C\u968F\u673A\u5316"))
       res <- tryCatch(withCallingHandlers(do.call(rp_randomize, args), warning = function(w) {
         shiny::showNotification(conditionMessage(w), type = "warning", duration = NULL)
@@ -405,7 +413,7 @@ rp_app_server <- function(input, output, session) {
       prob_best = input$min_prob_best,
       seed = input$seed,
       state_file = input$min_state_file,
-      output_dir = input$output_dir,
+      output_dir = hosted_dir %||% input$output_dir,
       generate_random_envelope = input$generate_random_envelope,
       generate_emergency_envelope = input$generate_emergency_envelope
     ), error = function(e) e)

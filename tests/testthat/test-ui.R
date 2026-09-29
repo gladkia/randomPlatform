@@ -109,3 +109,32 @@ test_that("UI verification code no longer compares the table to itself", {
   expect_false(grepl("rp_verify_reproducibility\\(result\\(\\)\\$allocation_table, result\\(\\)\\$allocation_table\\)", server_text))
   expect_true(grepl("sys.source", server_text, fixed = TRUE))
 })
+
+test_that("hosted mode ignores the typed output directory and hides disk browsing", {
+  withr::local_options(randomPlatform.hosted = TRUE, randomPlatform.language = "en-US")
+  html <- paste(as.character(rp_app_ui()), collapse = "\n")
+  expect_false(grepl("choose_output_dir", html, fixed = TRUE))
+  expect_true(grepl("do not enter real participant data", html, fixed = TRUE))
+
+  target <- tempfile("rp-typed-")
+  shiny::testServer(rp_app_server, {
+    session$setInputs(
+      project_name = "Study", protocol_no = "P001", sponsor_name = "Sponsor", language = "en-US",
+      output_dir = target, encrypt_sensitive_outputs = FALSE, password = "",
+      group_count = 2, group_id_1 = "A", group_id_2 = "B", intervention_name_1 = "Drug",
+      intervention_name_2 = "Control", blind_label = "Treatment", ratio_1 = 1, ratio_2 = 1,
+      n_total = 8, sample_input_mode = "ratio", method = "block", seed = 1, strata_count = 0,
+      center_var = "<none>", block_sizes = "4", block_size_probs = "", random_no_prefix = "R",
+      random_no_width = 3, random_no_by_center = FALSE, code_prefix = "D", code_width = 4,
+      code_random_digits = FALSE, code_range_min = 1000, code_range_max = 9999, code_by_group = FALSE,
+      envelope_no_prefix = "No.", envelope_no_width = 3, generate_random_envelope = FALSE,
+      random_envelope_file = "r.pdf", generate_emergency_envelope = FALSE, emergency_envelope_file = "e.pdf",
+      generate_report = FALSE, report_file = "r.xlsx", generate_reproducibility = FALSE,
+      standalone_reproducibility_code = FALSE
+    )
+    session$setInputs(generate = 1)
+    expect_null(last_error())
+    expect_identical(normalizePath(result()$design$output_dir), normalizePath(hosted_dir))
+  })
+  expect_false(dir.exists(target))
+})
