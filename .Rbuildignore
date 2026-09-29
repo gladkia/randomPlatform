@@ -9,3 +9,6 @@
 ^pdf_preview$
 ^start_randomPlatform_UI[.]R$
 ^start_randomPlatform_UI[.]bat$
+^\.github$
+^logo[.]png$
+^demo$

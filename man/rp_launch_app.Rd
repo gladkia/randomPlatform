@@ -9,6 +9,7 @@ rp_launch_app(
   port = 3838,
   launch.browser = TRUE,
   stop_on_session_end = TRUE,
+  language = getOption("randomPlatform.language", "zh-CN"),
   options = list()
 )
 }
@@ -30,6 +31,10 @@ when launching in an environment where browser automation is not desired.}
 server is wrapped so that \code{shiny::stopApp()} is called when the session
 ends. When \code{FALSE}, \code{rp_app_server} is used directly and the app keeps the
 standard Shiny session lifecycle.}
+
+\item{language}{Interface language: \code{"zh-CN"}, \code{"en-US"} or \code{"pl-PL"}.
+Default: option \code{randomPlatform.language}, else \code{"zh-CN"}. It is also the
+preselected language for envelopes, which can be changed in the app.}
 
 \item{options}{Named list of additional arguments passed through to
 \code{shiny::runApp()} via \code{do.call()}. Defaults to \code{list()}. Use this to

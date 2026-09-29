@@ -1,31 +1,39 @@
 rp_project_panel <- function() {
-  output_dir <- rp_default_output_dir()
+  output_dir <- if (rp_hosted()) NULL else rp_default_output_dir()
   shiny::tagList(
     rp_card(
-      "\u9879\u76EE\u4FE1\u606F",
-      subtitle = "\u7528\u4E8E\u62A5\u8868\u3001\u4FE1\u5C01\u548C\u590D\u73B0\u6587\u4EF6\u7684\u57FA\u7840\u4FE1\u606F\u3002",
+      rp_t("\u9879\u76EE\u4FE1\u606F"),
+      subtitle = rp_t("\u7528\u4E8E\u62A5\u8868\u3001\u4FE1\u5C01\u548C\u590D\u73B0\u6587\u4EF6\u7684\u57FA\u7840\u4FE1\u606F\u3002"),
       rp_grid(
-        shiny::textInput("project_name", "\u9879\u76EE\u540D\u79F0", value = "\u793A\u4F8B\u4E34\u5E8A\u8BD5\u9A8C"),
-        shiny::textInput("protocol_no", "\u65B9\u6848\u7F16\u53F7", value = "RP-001"),
-        shiny::textInput("sponsor_name", "\u7533\u529E\u5355\u4F4D\u540D\u79F0", value = "\u793A\u4F8B\u7533\u529E\u5355\u4F4D"),
-        shiny::selectInput("language", "\u8BED\u8A00", choices = c("Chinese" = "zh-CN", "English" = "en-US"), selected = "zh-CN")
+        shiny::textInput("project_name", rp_t("\u9879\u76EE\u540D\u79F0"), value = rp_t("\u793A\u4F8B\u4E34\u5E8A\u8BD5\u9A8C")),
+        shiny::textInput("protocol_no", rp_t("\u65B9\u6848\u7F16\u53F7"), value = "RP-001"),
+        shiny::textInput("sponsor_name", rp_t("\u7533\u529E\u5355\u4F4D\u540D\u79F0"), value = rp_t("\u793A\u4F8B\u7533\u529E\u5355\u4F4D")),
+        shiny::selectInput("language", rp_t("\u8BED\u8A00"), choices = c("\u4E2D\u6587" = "zh-CN", "English" = "en-US", "Polski" = "pl-PL"), selected = getOption("randomPlatform.language", "zh-CN"))
       )
     ),
     rp_card(
-      "\u8F93\u51FA\u4E0E\u5B89\u5168",
-      subtitle = "\u9ED8\u8BA4\u4EC5\u5728\u672C\u5730\u8FD0\u884C\uFF0C\u654F\u611F\u6587\u4EF6\u4E0B\u8F7D\u524D\u9700\u8981\u4E8C\u6B21\u786E\u8BA4\u3002",
-      shiny::tags$div(
-        class = "rp-output-dir-row",
-        shiny::textInput("output_dir", "\u8F93\u51FA\u76EE\u5F55", value = output_dir),
-        shinyFiles::shinyDirButton("choose_output_dir", "\u9009\u62E9\u76EE\u5F55", "\u8BF7\u9009\u62E9\u8F93\u51FA\u76EE\u5F55", class = "btn-secondary rp-dir-button")
-      ),
+      rp_t("\u8F93\u51FA\u4E0E\u5B89\u5168"),
+      subtitle = rp_t("\u9ED8\u8BA4\u4EC5\u5728\u672C\u5730\u8FD0\u884C\uFF0C\u654F\u611F\u6587\u4EF6\u4E0B\u8F7D\u524D\u9700\u8981\u4E8C\u6B21\u786E\u8BA4\u3002"),
+      if (rp_hosted()) {
+        shiny::tags$div(class = "rp-envelope-sequence-warning", rp_t("\u6F14\u793A\u7248\uFF1A\u8BF7\u52FF\u8F93\u5165\u771F\u5B9E\u53D7\u8BD5\u8005\u6570\u636E\u3002\u6587\u4EF6\u4EC5\u4FDD\u5B58\u5728\u672C\u6B21\u4F1A\u8BDD\u4E2D\uFF0C\u8BF7\u5728\u201C\u6587\u4EF6\u4E0B\u8F7D\u201D\u9875\u9762\u4E0B\u8F7D\u3002"))
+      } else {
+        shiny::tags$div(
+          class = "rp-output-dir-row",
+          shiny::textInput("output_dir", rp_t("\u8F93\u51FA\u76EE\u5F55"), value = output_dir),
+          shinyFiles::shinyDirButton("choose_output_dir", rp_t("\u9009\u62E9\u76EE\u5F55"), rp_t("\u8BF7\u9009\u62E9\u8F93\u51FA\u76EE\u5F55"), class = "btn-secondary rp-dir-button")
+        )
+      },
       rp_grid(
-        shiny::checkboxInput("encrypt_sensitive_outputs", "\u542F\u7528\u654F\u611F\u8F93\u51FA\u5BC6\u7801\u5FC5\u586B\u68C0\u67E5\uFF08\u5F53\u524D\u4E0D\u52A0\u5BC6\u6587\u4EF6\uFF09", value = FALSE),
-        shiny::passwordInput("password", "\u5BC6\u7801\uFF08\u5F53\u524D\u4EC5\u6821\u9A8C\u662F\u5426\u586B\u5199\uFF09", value = "")
+        shiny::checkboxInput("encrypt_sensitive_outputs", rp_t("\u542F\u7528\u654F\u611F\u8F93\u51FA\u5BC6\u7801\u5FC5\u586B\u68C0\u67E5\uFF08\u5F53\u524D\u4E0D\u52A0\u5BC6\u6587\u4EF6\uFF09"), value = FALSE),
+        shiny::passwordInput("password", rp_t("\u5BC6\u7801\uFF08\u5F53\u524D\u4EC5\u6821\u9A8C\u662F\u5426\u586B\u5199\uFF09"), value = "")
       )
     )
   )
 }
+
+# Hosted mode (a shared server, e.g. Posit Connect): no browsing of the server's
+# disk, and every session writes into its own temporary directory.
+rp_hosted <- function() isTRUE(getOption("randomPlatform.hosted", FALSE))
 
 rp_default_output_dir <- function() {
   home <- Sys.getenv("USERPROFILE", unset = path.expand("~"))

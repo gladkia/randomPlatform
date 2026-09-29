@@ -49,11 +49,18 @@
   close(con)
 }
 
+# Chinese envelopes carry an English gloss; Polish text is about twice as long, so with
+# the gloss it overflows the rows and note boxes. Polish pages keep English only in the header.
 .rp_bilingual <- function(zh, en) {
-  paste0(zh, "\uFF08", en, "\uFF09")
+  switch(.rp_lang(),
+    zh = paste0(zh, "\uFF08", en, "\uFF09"),
+    en = en,
+    pl = rp_t(zh)
+  )
 }
 
 .rp_page_header <- function(title, title_en, envelope_no, accent = "#176f6b") {
+  if (identical(.rp_lang(), "en")) title_en <- ""
   plot.new()
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   rect(0, 0, 1, 1, col = "#ffffff", border = NA)
@@ -130,7 +137,7 @@
 }
 
 .rp_emergency_insert_sensitive_note_lines <- function() {
-  c(.rp_bilingual("本页含明确盲底，仅限紧急破盲时由授权人员查看", "This page contains allocation information and is restricted to authorized emergency unblinding use"))
+  c(.rp_bilingual("\u672C\u9875\u542B\u660E\u786E\u76F2\u5E95\uFF0C\u4EC5\u9650\u7D27\u6025\u7834\u76F2\u65F6\u7531\u6388\u6743\u4EBA\u5458\u67E5\u770B", "This page contains allocation information and is restricted to authorized emergency unblinding use"))
 }
 
 .rp_emergency_insert_sensitive_note_spec <- function(y_after, gap = 0.035) {
@@ -149,7 +156,7 @@
   )
 
   list(
-    title = .rp_bilingual("敏感提示", "Sensitive information"),
+    title = .rp_bilingual("\u654F\u611F\u63D0\u793A", "Sensitive information"),
     lines = lines,
     y_top = min(0.24, y_after - gap),
     height = height,
@@ -225,7 +232,7 @@
   page_width <- 210 / 25.4
   page_height <- 148 / 25.4
   if (is.null(font_family) || !nzchar(font_family)) {
-    font_family <- .rp_find_chinese_font()
+    font_family <- if (identical(.rp_lang(), "zh")) .rp_find_chinese_font() else "sans"
   }
   if (isTRUE(capabilities("cairo"))) {
     grDevices::cairo_pdf(filename = file, width = page_width, height = page_height, family = font_family %||% "sans", onefile = TRUE)
@@ -242,7 +249,7 @@
     row <- allocation[i, , drop = FALSE]
     stratum_display <- .rp_stratum_display(row, strata_cols)
 
-    .rp_page_header("\u968F\u673A\u4FE1\u5C01\u5C01\u9762", "Random Envelope Cover", row$envelope_no)
+    .rp_page_header(rp_t("\u968F\u673A\u4FE1\u5C01\u5C01\u9762"), "Random Envelope Cover", row$envelope_no)
     common_rows <- .rp_envelope_common_rows(row, project_name, protocol_no, sponsor_name, center_col, stratum_display)
     y_after <- .rp_draw_kv_table(common_rows, y_top = 0.78, row_h = 0.061)
     .rp_draw_note_box(
@@ -262,7 +269,7 @@
     )
     .rp_draw_footer("Random envelope cover", row$envelope_no)
 
-    .rp_page_header("\u968F\u673A\u4FE1\u5C01\u5185\u9875", "Random Envelope Insert", row$envelope_no)
+    .rp_page_header(rp_t("\u968F\u673A\u4FE1\u5C01\u5185\u9875"), "Random Envelope Insert", row$envelope_no)
     insert_rows <- rbind(
       common_rows,
       data.frame(label = .rp_bilingual("\u836F\u7269\u7F16\u53F7/\u5E72\u9884\u7F16\u53F7", "Drug/intervention code"), value = as.character(row$drug_code), stringsAsFactors = FALSE)
@@ -280,7 +287,7 @@
     row <- allocation[i, , drop = FALSE]
     stratum_display <- .rp_stratum_display(row, strata_cols)
 
-    .rp_page_header("\u5E94\u6025\u7834\u76F2\u4FE1\u5C01\u5C01\u9762", "Emergency Unblinding Envelope Cover", row$envelope_no, accent = "#b42318")
+    .rp_page_header(rp_t("\u5E94\u6025\u7834\u76F2\u4FE1\u5C01\u5C01\u9762"), "Emergency Unblinding Envelope Cover", row$envelope_no, accent = "#b42318")
     .rp_draw_note_box(
       .rp_bilingual("\u8B66\u793A", "Warning"),
       c(
@@ -321,7 +328,7 @@
     )
     .rp_draw_footer("Emergency envelope cover", row$envelope_no)
 
-    .rp_page_header("\u5E94\u6025\u7834\u76F2\u4FE1\u5C01\u5185\u9875", "Emergency Unblinding Envelope Insert", row$envelope_no, accent = "#b42318")
+    .rp_page_header(rp_t("\u5E94\u6025\u7834\u76F2\u4FE1\u5C01\u5185\u9875"), "Emergency Unblinding Envelope Insert", row$envelope_no, accent = "#b42318")
     insert_rows <- rbind(
       common_rows,
       data.frame(label = .rp_bilingual("\u8BD5\u9A8C\u53C2\u4E0E\u8005\u968F\u673A\u53F7", "Participant randomization number"), value = as.character(row$random_no), stringsAsFactors = FALSE),

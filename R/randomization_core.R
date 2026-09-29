@@ -340,6 +340,20 @@
   paste0(prefix, "-", sprintf(paste0("%0", as.integer(code_width), "d"), digits))
 }
 
+.rp_save_rng <- function() {
+  kind <- RNGkind()
+  genv <- globalenv()
+  seed <- if (exists(".Random.seed", envir = genv, inherits = FALSE)) get(".Random.seed", envir = genv, inherits = FALSE) else NULL
+  function() {
+    do.call(RNGkind, as.list(kind))
+    if (is.null(seed)) {
+      if (exists(".Random.seed", envir = genv, inherits = FALSE)) rm(".Random.seed", envir = genv)
+    } else {
+      assign(".Random.seed", seed, envir = genv)
+    }
+  }
+}
+
 .rp_set_rng <- function(seed, rng_kind, normal_kind, sample_kind) {
   do.call(RNGkind, list(kind = rng_kind, normal.kind = normal_kind, sample.kind = sample_kind))
   set.seed(seed)
@@ -484,12 +498,13 @@
 #'   `FALSE`, the script calls the installed package API. Default: `TRUE`.
 #' @param output_dir Output directory for all generated files. Default: `"."`.
 #'   It is created recursively if needed and must be writable.
-#' @param language Character scalar currently accepted for API compatibility
-#'   only. Default: `"zh-CN"`. `rp_randomize()` does not currently branch on
-#'   this value.
+#' @param language Language of the PDF envelopes: `"zh-CN"`, `"en-US"` or
+#'   `"pl-PL"`. Default: option `randomPlatform.language`, else `"zh-CN"`.
+#'   Chinese envelopes carry English in brackets. It does not
+#'   affect the allocation or its hash.
 #' @param font_family Optional font family name forwarded to the PDF envelope
-#'   writers. Default: `NULL`. When `NULL`, the PDF helpers automatically choose
-#'   a platform-appropriate Chinese font candidate before opening the PDF device.
+#'   writers. Default: `NULL`. When `NULL`, Chinese envelopes use a
+#'   platform-appropriate Chinese font and other languages use `"sans"`.
 #' @param encrypt_sensitive_outputs Logical; currently a boundary-validation flag
 #'   only. Default: `FALSE`. When `TRUE`, `password` must be a non-empty string,
 #'   but this function does not itself encrypt output files.
@@ -562,7 +577,7 @@
 #'
 #'   `block_sizes` and `block_size_probs` are used by `"block"` and
 #'   `"stratified_block"`; the current `"stratified"` path does not use them.
-#'   `language` is currently accepted but unused by `rp_randomize()`. When the
+#'   `language` only changes envelope text. When the
 #'   reproducibility bundle is generated, `standalone_reproducibility_code = TRUE`
 #'   writes a standalone `reproduce_randomization.R` script that embeds the
 #'   package function definitions, while `FALSE` keeps a package-based script.
@@ -627,7 +642,7 @@ rp_randomize <- function(
   generate_reproducibility = TRUE,
   standalone_reproducibility_code = TRUE,
   output_dir = ".",
-  language = "zh-CN",
+  language = getOption("randomPlatform.language", "zh-CN"),
   font_family = NULL,
   encrypt_sensitive_outputs = FALSE,
   password = NULL,
@@ -648,6 +663,9 @@ rp_randomize <- function(
   groups <- interventions$group_id
   strata <- .rp_parse_strata(strata)
   output_dir <- .rp_validate_output_dir(output_dir)
+  .rp_lang(language)
+  old_language <- options(randomPlatform.language = language)
+  on.exit(options(old_language), add = TRUE)
   if (isTRUE(encrypt_sensitive_outputs) && (is.null(password) || !nzchar(password))) {
     stop("password is required when encrypt_sensitive_outputs is TRUE.", call. = FALSE)
   }
@@ -668,12 +686,18 @@ rp_randomize <- function(
   if (method %in% c("stratified", "stratified_block") && is.null(strata)) {
     stop("strata is required for stratified randomization methods.", call. = FALSE)
   }
+  if (method %in% c("block", "stratified_block") && any(allocation_ratio != round(allocation_ratio))) {
+    stop("Block methods require whole-number allocation ratios (e.g. 3:2 instead of 1.5:1).", call. = FALSE)
+  }
+  if (isTRUE(code_by_group)) {
+    warning("code_by_group = TRUE puts the group into drug_code, so the blinded site table reveals allocation. Use it only in open-label studies.", call. = FALSE)
+  }
   if (!is.null(center_var) && !center_var %in% names(strata)) {
     stop("center_var must name one of the stratification factors.", call. = FALSE)
   }
 
-  old_rng <- RNGkind()
-  on.exit(do.call(RNGkind, as.list(old_rng)), add = TRUE)
+  restore_rng <- .rp_save_rng()
+  on.exit(restore_rng(), add = TRUE)
   .rp_set_rng(as.integer(seed), rng_kind, normal_kind, sample_kind)
   rng_start <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
 
@@ -707,7 +731,8 @@ rp_randomize <- function(
   strata_cols <- intersect(names(strata %||% list()), names(allocation))
   base_cols <- intersect(c("envelope_no", center_col, "stratum_id", strata_cols, "random_no", "block_id", "block_size", "drug_code"), names(allocation))
   allocation_table <- allocation[, unique(c(base_cols, "group_id", "intervention_name", "blind_label", "allocation_label", "sequence_no", "method")), drop = FALSE]
-  blinded_cols <- intersect(c("envelope_no", center_col, "stratum_id", strata_cols, "random_no", "block_id", "block_size", "drug_code", "blind_label"), names(allocation))
+  # Block ids and sizes stay out of the site table: knowing the block length lets sites predict the last allocations in a block (ICH E9).
+  blinded_cols <- intersect(c("envelope_no", center_col, "stratum_id", strata_cols, "random_no", "drug_code", "blind_label"), names(allocation))
   blinded_table <- allocation[, unique(blinded_cols), drop = FALSE]
   unblinded_table <- allocation_table
 

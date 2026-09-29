@@ -38,7 +38,7 @@ rp_randomize(
   generate_reproducibility = TRUE,
   standalone_reproducibility_code = TRUE,
   output_dir = ".",
-  language = "zh-CN",
+  language = getOption("randomPlatform.language", "zh-CN"),
   font_family = NULL,
   encrypt_sensitive_outputs = FALSE,
   password = NULL,
@@ -189,13 +189,14 @@ definitions so reviewers can inspect the implementation directly. If
 \item{output_dir}{Output directory for all generated files. Default: \code{"."}.
 It is created recursively if needed and must be writable.}
 
-\item{language}{Character scalar currently accepted for API compatibility
-only. Default: \code{"zh-CN"}. \code{rp_randomize()} does not currently branch on
-this value.}
+\item{language}{Language of the PDF envelopes: \code{"zh-CN"}, \code{"en-US"} or
+\code{"pl-PL"}. Default: option \code{randomPlatform.language}, else \code{"zh-CN"}.
+Chinese envelopes carry English in brackets. It does not
+affect the allocation or its hash.}
 
 \item{font_family}{Optional font family name forwarded to the PDF envelope
-writers. Default: \code{NULL}. When \code{NULL}, the PDF helpers automatically choose
-a platform-appropriate Chinese font candidate before opening the PDF device.}
+writers. Default: \code{NULL}. When \code{NULL}, Chinese envelopes use a
+platform-appropriate Chinese font and other languages use \code{"sans"}.}
 
 \item{encrypt_sensitive_outputs}{Logical; currently a boundary-validation flag
 only. Default: \code{FALSE}. When \code{TRUE}, \code{password} must be a non-empty string,
@@ -279,7 +280,7 @@ outputs.
 
 \code{block_sizes} and \code{block_size_probs} are used by \code{"block"} and
 \code{"stratified_block"}; the current \code{"stratified"} path does not use them.
-\code{language} is currently accepted but unused by \code{rp_randomize()}. When the
+\code{language} only changes envelope text. When the
 reproducibility bundle is generated, \code{standalone_reproducibility_code = TRUE}
 writes a standalone \code{reproduce_randomization.R} script that embeds the
 package function definitions, while \code{FALSE} keeps a package-based script.
